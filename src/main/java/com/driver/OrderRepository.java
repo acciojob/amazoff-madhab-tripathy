@@ -43,33 +43,19 @@ public class OrderRepository {
     }
     // 4
     public Order getOrderById(String orderId){
-        for(String id : orderHashMap.keySet()){
-            if(id.equals(orderId)){
-                return orderHashMap.get(orderId);
-            }
-        }
-        return null;
+            return orderHashMap.get(orderId);
     }
     // 5
     public DeliveryPartner getPartnerById(String partnerId){
-        for(String id : partnerHashMap.keySet()){
-            if(id.equals(partnerId)){
-                return partnerHashMap.get(partnerId);
-            }
-        }
-        return null;
+            return partnerHashMap.get(partnerId);
     }
     // 6
     public Integer getOrderCountByPartnerId(String partnerId){
-        int orders = patnerOrderPairHashMap.getOrDefault(partnerId, new ArrayList<>()).size();
-        return orders;
+        return patnerOrderPairHashMap.get(partnerId).size();
     }
     // 7 Get List of all orders assigned to the given partnerId:
     public List<String> getOrdersByPartnerId(String partnerId){
-        if(patnerOrderPairHashMap.containsKey(partnerId)){
-            return patnerOrderPairHashMap.get(partnerId);
-        }
-        return null;
+        return patnerOrderPairHashMap.get(partnerId);
     }
     // 8 Get List of all orders in the system
     public List<String> getAllOrders() {
