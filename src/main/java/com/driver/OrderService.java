@@ -8,14 +8,14 @@ import java.util.List;
 public class OrderService {
     @Autowired
     OrderRepository orderRepository;
-    public void addOrder(Order order){
-        orderRepository.addOrder(order);
+    public String addOrder(Order order){
+        return orderRepository.addOrder(order);
     }
-    public void addPartner(String id){
-        orderRepository.addPartner(id);
+    public String addPartner(String id){
+        return orderRepository.addPartner(id);
     }
-    public void addOrderPartnerPair(String orderId, String partnerId){
-        orderRepository.addOrderPartnerPair(orderId,partnerId);
+    public String addOrderPartnerPair(String orderId, String partnerId){
+        return orderRepository.addOrderPartnerPair(orderId,partnerId);
     }
     public Order getOrderById(String id){
         return orderRepository.getOrderById(id);
@@ -41,11 +41,11 @@ public class OrderService {
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         return orderRepository.getLastDeliveryTimeByPartnerId(partnerId);
     }
-    public void deletePartnerById(String partnerId){
-        orderRepository.deletePartnerById(partnerId);
+    public String deletePartnerById(String partnerId){
+        return orderRepository.deletePartnerById(partnerId);
     }
-    public void deleteOrderById(String orderId){
-        orderRepository.deleteOrderById(orderId);
+    public String deleteOrderById(String orderId){
+        return orderRepository.deleteOrderById(orderId);
     }
 
 }

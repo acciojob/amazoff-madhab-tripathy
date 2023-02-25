@@ -14,16 +14,18 @@ public class OrderRepository {
     HashMap<String, List<String>> patnerOrderPairHashMap = new HashMap<>(); // key - partner id, value - order id
     HashMap<String, String> orderPartner = new HashMap<>();
     // 1
-    public void addOrder(Order order){
+    public String addOrder(Order order){
         orderHashMap.put(order.getId(),order);
+        return "Added";
     }
     // 2
-    public void addPartner(String partnerId){
+    public String addPartner(String partnerId){
         DeliveryPartner deliveryPartner = new DeliveryPartner(partnerId);
         partnerHashMap.put(partnerId, deliveryPartner);
+        return "added";
     }
     // 3
-    public void addOrderPartnerPair(String orderId, String partnerId){
+    public String addOrderPartnerPair(String orderId, String partnerId){
         if(partnerHashMap.containsKey(partnerId) && orderHashMap.containsKey(orderId)){
             //make pair for orderId and partnerId
             List<String> orderList = new ArrayList<>();
@@ -39,6 +41,7 @@ public class OrderRepository {
             orderPartner.put(orderId,partnerId);
 //            orderCountHashMap.put(partnerId,);
         }
+        return "added";
     }
     // 4
     public Order getOrderById(String orderId){
@@ -95,7 +98,7 @@ public class OrderRepository {
         return time;
     }
     // 12 Delete a partner and the corresponding orders should be unassigned
-    public void deletePartnerById(String partnerId){
+    public String deletePartnerById(String partnerId){
         List<String> orderList;
         if(patnerOrderPairHashMap.containsKey(partnerId)) {
             orderList = patnerOrderPairHashMap.get(partnerId);
@@ -106,9 +109,10 @@ public class OrderRepository {
             partnerHashMap.remove(partnerId);
             patnerOrderPairHashMap.remove(partnerId);
         }
+        return "deleted";
     }
     // 13 Delete an order and the corresponding partner should be unassigned
-    public void deleteOrderById(String orderId){
+    public String deleteOrderById(String orderId){
         // 1. remove from orderHashMap
         orderHashMap.remove(orderId);
         String partnerId = orderPartner.get(orderId);
@@ -122,6 +126,7 @@ public class OrderRepository {
          orderList.removeIf(order -> order.equals(orderId));
         // 3. remove from orderPartner
         orderPartner.remove(orderId);
+        return "deleted";
     }
     private String convertTime(int time){
         int hr = time / 60;
