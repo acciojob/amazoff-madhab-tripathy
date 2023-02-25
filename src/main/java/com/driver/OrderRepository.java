@@ -78,7 +78,7 @@ public class OrderRepository {
         int deliveryTime = (hour*60)+minute;
         for(String orderId : orderList){
             Order order = orderHashMap.get(orderId);
-            if(order.getDeliveryTimeInt() > deliveryTime){
+            if(order.getDeliveryTime() > deliveryTime){
                 remainingOrders++;
             }
         }
@@ -92,7 +92,7 @@ public class OrderRepository {
         // find max delivery time from each order
         for(String order : orderList){
             Order order1 = orderHashMap.get(order);
-            deliveryTime = Math.max(deliveryTime,order1.getDeliveryTimeInt());
+            deliveryTime = Math.max(deliveryTime,order1.getDeliveryTime());
         }
         String time = convertTime(deliveryTime);
         return time;
