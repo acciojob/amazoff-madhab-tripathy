@@ -25,21 +25,12 @@ public class OrderRepository {
     }
     // 3
     public void makePartnerOrderPair(String orderId, String partnerId){
-        if(partnerHashMap.containsKey(partnerId) && orderHashMap.containsKey(orderId)){
-            //make pair for orderId and partnerId
-            List<String> orderList = new ArrayList<>();
-            // update orderList if partnerId is present or not
-            // else create a new one parentId and orderId in paired map
-            if(patnerOrderPairHashMap.containsKey(partnerId)){
-                orderList = patnerOrderPairHashMap.get(partnerId);
-            }
-            orderList.add(orderId);
-            patnerOrderPairHashMap.put(partnerId,orderList);
-            DeliveryPartner deliveryPartner = partnerHashMap.get(partnerId);
-            deliveryPartner.setNumberOfOrders(orderList.size());
-            orderPartner.put(orderId,partnerId);
-//            orderCountHashMap.put(partnerId,);
-        }
+        List<String> orderList = patnerOrderPairHashMap.getOrDefault(partnerId, new ArrayList<>());
+        orderList.add(orderId);
+        patnerOrderPairHashMap.put(partnerId, orderList);
+        orderPartner.put(orderId, partnerId);
+        DeliveryPartner deliveryPartner = partnerHashMap.get(partnerId);
+        deliveryPartner.setNumberOfOrders(orderList.size());
     }
     // 4
     public Order findOrderById(String orderId){
@@ -61,17 +52,13 @@ public class OrderRepository {
     }
     // 6
     public Integer findOrderCountByPartnerId(String partnerId){
-        if(partnerHashMap.containsKey(partnerId)){
-            return partnerHashMap.get(partnerId).getNumberOfOrders();
-        }
-        return 0;
+        int orders = patnerOrderPairHashMap.getOrDefault(partnerId, new ArrayList<>()).size();
+        return orders;
     }
     // 7 Get List of all orders assigned to the given partnerId:
     public List<String> findOrdersByPartnerId(String partnerId){
-        if(patnerOrderPairHashMap.containsKey(partnerId)){
-            return patnerOrderPairHashMap.get(partnerId);
-        }
-        return null;
+        List<String> orders = patnerOrderPairHashMap.getOrDefault(partnerId, new ArrayList<>());
+        return orders;
     }
     // 8 Get List of all orders in the system
     public List<String> findAllOrders() {
