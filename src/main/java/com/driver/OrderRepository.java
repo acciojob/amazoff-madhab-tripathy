@@ -156,7 +156,6 @@ public class OrderRepository {
         }
 
         String deleveryTime = hour + ":" + minute;
-
         return deleveryTime;
     }
 }
