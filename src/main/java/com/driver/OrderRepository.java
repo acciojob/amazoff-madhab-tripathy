@@ -13,7 +13,6 @@ public class OrderRepository {
     HashMap<String, DeliveryPartner> partnerHashMap = new HashMap<>();
     HashMap<String, List<String>> patnerOrderPairHashMap = new HashMap<>(); // key - partner id, value - order id
     HashMap<String, String> orderPartner = new HashMap<>();
-
     // 1
     public void addOrder(Order order){
         orderHashMap.put(order.getId(),order);
@@ -76,7 +75,7 @@ public class OrderRepository {
         int deliveryTime = (hour*60)+minute;
         for(String orderId : orderList){
             Order order = orderHashMap.get(orderId);
-            if(order.getDeliveryTime() > deliveryTime){
+            if(order.getDeliveryTimeInt() > deliveryTime){
                 remainingOrders++;
             }
         }
@@ -90,7 +89,7 @@ public class OrderRepository {
         // find max delivery time from each order
         for(String order : orderList){
             Order order1 = orderHashMap.get(order);
-            deliveryTime = Math.max(deliveryTime,order1.getDeliveryTime());
+            deliveryTime = Math.max(deliveryTime,order1.getDeliveryTimeInt());
         }
         String time = convertTime(deliveryTime);
         return time;
