@@ -12,7 +12,7 @@ public class OrderRepository {
     HashMap<String, Order> orderHashMap = new HashMap<>();
     HashMap<String, DeliveryPartner> partnerHashMap = new HashMap<>();
     HashMap<String, List<String>> patnerOrderPairHashMap = new HashMap<>(); // key - partner id, value - order id
-    HashMap<String, String> orderPartner = new HashMap<>();
+    HashMap<String, String> orderPartner = new HashMap<>(); // key - orderId, value partnerId
     // 1
     public String addOrder(Order order){
         orderHashMap.put(order.getId(),order);
@@ -92,7 +92,7 @@ public class OrderRepository {
             Order order1 = orderHashMap.get(order);
             deliveryTime = Math.max(deliveryTime,order1.getDeliveryTime());
         }
-        String time = convertTime(deliveryTime);
+        String time = Order.convertTime(deliveryTime);
         return time;
     }
     // 12 Delete a partner and the corresponding orders should be unassigned
@@ -125,24 +125,5 @@ public class OrderRepository {
         orderPartner.remove(orderId);
         return "deleted";
     }
-    private String convertTime(int time){
-        int hr = time / 60;
-        String hour = "";
-        if (hr < 10) {
-            hour = "0" + String.valueOf(hr);
-        } else {
-            hour = String.valueOf(hr);
-        }
 
-        int min = time % 60;
-        String minute = "";
-        if (min < 10) {
-            minute = "0" + String.valueOf(min);
-        } else {
-            minute = String.valueOf(min);
-        }
-
-        String deleveryTime = hour + ":" + minute;
-        return deleveryTime;
-    }
 }
