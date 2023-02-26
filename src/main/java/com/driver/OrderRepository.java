@@ -26,21 +26,19 @@ public class OrderRepository {
     }
     // 3
     public String addOrderPartnerPair(String orderId, String partnerId){
-        if(partnerHashMap.containsKey(partnerId) && orderHashMap.containsKey(orderId)){
-            //make pair for orderId and partnerId
-            List<String> orderList = new ArrayList<>();
-            // update orderList if partnerId is present or not
-            // else create a new one parentId and orderId in paired map
-            if(patnerOrderPairHashMap.containsKey(partnerId)){
-                orderList = patnerOrderPairHashMap.get(partnerId);
-            }
-            orderList.add(orderId);
-            patnerOrderPairHashMap.put(partnerId,orderList);
-            DeliveryPartner deliveryPartner = partnerHashMap.get(partnerId);
-            deliveryPartner.setNumberOfOrders(orderList.size());
-            orderPartner.put(orderId,partnerId);
-//            orderCountHashMap.put(partnerId,);
+        //make pair for orderId and partnerId
+        List<String> orderList = new ArrayList<>();
+        // update orderList if partnerId is present or not
+        // else create a new one parentId and orderId in paired map
+        if(patnerOrderPairHashMap.containsKey(partnerId)){
+            orderList = patnerOrderPairHashMap.get(partnerId);
         }
+        orderList.add(orderId);
+        patnerOrderPairHashMap.put(partnerId,orderList);
+        orderPartner.put(orderId,partnerId);
+        DeliveryPartner deliveryPartner = partnerHashMap.get(partnerId);
+        deliveryPartner.setNumberOfOrders(orderList.size());
+
         return "added";
     }
     // 4
@@ -99,16 +97,15 @@ public class OrderRepository {
     }
     // 12 Delete a partner and the corresponding orders should be unassigned
     public String deletePartnerById(String partnerId){
-        List<String> orderList;
-        if(patnerOrderPairHashMap.containsKey(partnerId)) {
-            orderList = patnerOrderPairHashMap.get(partnerId);
-            for (String order : orderList) {
-                orderHashMap.remove(order);
-                orderPartner.remove(order);
-            }
-            partnerHashMap.remove(partnerId);
-            patnerOrderPairHashMap.remove(partnerId);
+        // 1. remove from partner
+        partnerHashMap.remove(partnerId);
+        List<String> orderList = patnerOrderPairHashMap.get(partnerId);
+        // 2. remove from order and partner
+        for (String order : orderList) {
+            orderPartner.remove(order);
         }
+        // 3. remove from pair map
+        patnerOrderPairHashMap.remove(partnerId);
         return "deleted";
     }
     // 13 Delete an order and the corresponding partner should be unassigned
