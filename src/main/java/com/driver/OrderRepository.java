@@ -115,11 +115,13 @@ public class OrderRepository {
         String partnerId = orderPartner.get(orderId);
         // 2. remove from pair hashmap
         List<String> orderList = patnerOrderPairHashMap.get(partnerId);
-        for(String s : orderList){
-            if(s.equals(orderId)){
-                orderList.remove(orderId);
-            }
-        }
+        ListIterator<String> itr = orderList.listIterator();
+//        while(itr.hasNext()){
+//            String s = itr.next();
+//            if(s.equals(orderId)){
+//                itr.remove();
+//            }
+//        }
         orderList.removeIf(order -> order.equals(orderId));
         // 3. remove from orderPartner
         orderPartner.remove(orderId);
